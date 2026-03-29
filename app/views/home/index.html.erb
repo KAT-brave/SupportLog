@@ -1,0 +1,12 @@
+<h1>SupportLog</h1>
+<p>トップページ</p>
+
+<% if Current.user %>
+  <p>ログイン中: <%= Current.user.email_address %></p>
+<% end %>
+
+<ul>
+  <% if Current.user&.admin? %>
+    <li><%= link_to "ユーザー一覧", admin_users_path %></li>
+  <% end %>
+</ul>

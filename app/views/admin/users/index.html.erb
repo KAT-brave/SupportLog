@@ -1,0 +1,32 @@
+<h1>ユーザー一覧</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>メールアドレス</th>
+      <th>管理者</th>
+      <th>承認状態</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.email_address %></td>
+        <td><%= user.admin? ? "はい" : "いいえ" %></td>
+        <td>
+          <% if user.approved? %>
+            承認済み（<%= user.approved_at %>）
+          <% else %>
+            未承認
+          <% end %>
+        </td>
+        <td>
+          <% unless user.approved? %>
+            <%= button_to "承認", approve_admin_user_path(user), method: :patch %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
