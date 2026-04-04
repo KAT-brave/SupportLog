@@ -1,0 +1,4 @@
+ja:
+  time:
+    formats:
+      approval_datetime: "%Y/%m/%d %H:%M"

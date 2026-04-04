@@ -9,6 +9,7 @@
       <th>メールアドレス</th>
       <th>管理者</th>
       <th>状態</th>
+      <th>承認日時</th>
       <th>理由</th>
       <th>操作</th>
     </tr>
@@ -26,6 +27,13 @@
             <span class="status-badge status-rejected">却下済み</span>
           <% else %>
             <span class="status-badge status-pending">承認待ち</span>
+          <% end %>
+        </td>
+        <td>
+          <% if user.approved_at.present? %>
+            <%= l user.approved_at, format: :approval_datetime %>
+          <% else %>
+            -
           <% end %>
         </td>
         <td><%= user.rejection_reason %></td>
