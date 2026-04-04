@@ -9,4 +9,12 @@ class User < ApplicationRecord
   def approved?
     approved_at.present?
   end
+
+  def rejected?
+    rejected_at.present?
+  end
+
+  def pending?
+    approved_at.blank? && rejected_at.blank?
+  end
 end

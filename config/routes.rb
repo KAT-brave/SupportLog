@@ -5,9 +5,10 @@ Rails.application.routes.draw do
   resource :session
 
   namespace :admin do
-    resources :users, only: %i[index] do
+    resources :users, only: %i[index destroy] do
       member do
         patch :approve
+        patch :reject
       end
     end
   end

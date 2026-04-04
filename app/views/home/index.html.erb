@@ -1,12 +1,26 @@
-<h1>SupportLog</h1>
-<p>トップページ</p>
+<h1>サポートログ</h1>
 
-<% if Current.user %>
-  <p>ログイン中: <%= Current.user.email_address %></p>
-<% end %>
+<div class="home-card">
+  <p class="home-text">
+    サポートログのトップページです。
+  </p>
 
-<ul>
-  <% if Current.user&.admin? %>
-    <li><%= link_to "ユーザー一覧", admin_users_path %></li>
+  <% if Current.user %>
+    <p class="login-user">
+      ログイン中: <strong><%= Current.user.email_address %></strong>
+    </p>
+  <% else %>
+    <p class="home-text">
+      ログイン、またはユーザー登録を行ってください。
+    </p>
   <% end %>
-</ul>
+
+  <div class="menu-links">
+    <%= link_to "ログイン画面へ", new_session_path, class: "menu-link" %>
+    <%= link_to "ユーザー登録画面へ", new_registration_path, class: "menu-link" %>
+
+    <% if Current.user&.admin? %>
+      <%= link_to "ユーザー一覧へ", admin_users_path, class: "menu-link" %>
+    <% end %>
+  </div>
+</div>

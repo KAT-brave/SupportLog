@@ -1,11 +1,14 @@
 <h1>ユーザー一覧</h1>
 
-<table>
+<p><%= link_to "トップページに戻る", root_path %></p>
+
+<table class="simple-table">
   <thead>
     <tr>
       <th>メールアドレス</th>
       <th>管理者</th>
-      <th>承認状態</th>
+      <th>状態</th>
+      <th>理由</th>
       <th>操作</th>
     </tr>
   </thead>
@@ -16,15 +19,34 @@
         <td><%= user.admin? ? "はい" : "いいえ" %></td>
         <td>
           <% if user.approved? %>
-            承認済み（<%= user.approved_at %>）
+            <span class="status-badge status-approved">承認済み</span>
+          <% elsif user.rejected? %>
+            <span class="status-badge status-rejected">却下済み</span>
           <% else %>
-            未承認
+            <span class="status-badge status-pending">承認待ち</span>
           <% end %>
         </td>
+        <td><%= user.rejection_reason %></td>
         <td>
-          <% unless user.approved? %>
-            <%= button_to "承認", approve_admin_user_path(user), method: :patch %>
-          <% end %>
+          <div class="action-group">
+            <% if user.pending? %>
+              <%= button_to "承認", approve_admin_user_path(user), method: :patch %>
+
+              <%= form_with url: reject_admin_user_path(user), method: :patch, local: true do |f| %>
+                <div class="form-group">
+                  <%= text_field_tag :rejection_reason, nil, placeholder: "却下理由（任意）" %>
+                </div>
+                <%= f.submit "却下" %>
+              <% end %>
+            <% end %>
+
+            <% if user.approved? %>
+              <%= button_to "削除",
+                    admin_user_path(user),
+                    method: :delete,
+                    data: { turbo_confirm: "このユーザーを削除しますか？" } %>
+            <% end %>
+          </div>
         </td>
       </tr>
     <% end %>
