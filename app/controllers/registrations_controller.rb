@@ -9,7 +9,7 @@ class RegistrationsController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      redirect_to new_session_path, notice: "申込が完了しました。管理者の承認後にログインできます。"
+      redirect_to new_session_path, notice: "申込が完了しました。管理者承認後にログインできます。"
     else
       render :new, status: :unprocessable_entity
     end
@@ -18,6 +18,6 @@ class RegistrationsController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email_address, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email_address, :password, :password_confirmation)
   end
 end

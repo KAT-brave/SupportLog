@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_29_084439) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_04_062056) do
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "ip_address"
@@ -25,6 +25,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_29_084439) do
     t.datetime "approved_at"
     t.datetime "created_at", null: false
     t.string "email_address", null: false
+    t.string "name"
     t.string "password_digest", null: false
     t.datetime "rejected_at"
     t.text "rejection_reason"

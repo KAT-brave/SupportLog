@@ -7,7 +7,8 @@
 
   <% if Current.user %>
     <p class="login-user">
-      ログイン中: <strong><%= Current.user.email_address %></strong>
+      ログイン中: <strong><%= Current.user.name %></strong>
+      （<%= Current.user.email_address %>）
     </p>
   <% else %>
     <p class="home-text">
