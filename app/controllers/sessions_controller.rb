@@ -24,4 +24,9 @@ class SessionsController < ApplicationController
       redirect_to new_session_path, alert: "メールアドレスまたはパスワードが正しくありません"
     end
   end
+
+  def destroy
+  terminate_session
+  redirect_to new_session_path, notice: "ログアウトしました"
+  end
 end
