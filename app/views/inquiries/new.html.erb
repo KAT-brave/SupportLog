@@ -1,0 +1,62 @@
+<h1>問い合わせ登録</h1>
+
+<%= form_with model: @inquiry do |f| %>
+  <div class="form-group">
+    <%= f.label :title, "タイトル" %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :body, "本文（対応内容・経緯）" %>
+    <%= f.text_area :body, rows: 6 %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :customer_name, "事業者（Customer）" %>
+    <%= f.text_field :customer_name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :phone_number, "電話番号" %>
+    <%= f.text_field :phone_number %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag "inquiry_feature_ids", "機能（Feature）" %><br>
+    <% @features.each do |feature| %>
+      <div>
+        <%= check_box_tag "inquiry[feature_ids][]", feature.id, @inquiry.feature_ids.include?(feature.id) %>
+        <%= feature.name %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :status, "ステータス" %>
+    <%= f.select :status, [["未対応", "unhandled"], ["対応中", "in_progress"], ["完了", "completed"]] %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :priority, "優先度" %>
+    <%= f.select :priority, [["低", "low"], ["中", "medium"], ["高", "high"]] %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :due_date, "期日" %>
+    <%= f.date_field :due_date %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :assignee_id, "担当者" %>
+    <%= f.collection_select :assignee_id, @assignees, :id, :name, prompt: "選択してください" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit "登録する" %>
+  </div>
+<% end %>
+
+<div class="link-group">
+  <p><%= link_to "トップページに戻る", root_path %></p>
+  <p><%= link_to "問い合わせ一覧へ", inquiries_path %></p>
+</div>

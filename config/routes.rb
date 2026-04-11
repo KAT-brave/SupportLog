@@ -1,10 +1,20 @@
 Rails.application.routes.draw do
-  get "home/index"
+  get "inquiries/index"
+  get "inquiries/show"
+  get "inquiries/new"
+  get "inquiries/create"
+  get "inquiries/edit"
+  get "inquiries/update"
   root "home#index"
 
   resource :registration, only: %i[new create]
-  resource :session, only: %i[new create destroy]
-  resources :passwords, param: :token, only: %i[new create edit update]
+  resource :session
+
+  resources :inquiries do
+    member do
+      patch :soft_delete
+    end
+  end
 
   namespace :admin do
     resources :users, only: %i[index destroy] do

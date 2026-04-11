@@ -10,7 +10,51 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_04_062056) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_135007) do
+  create_table "feature_assignments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "feature_id", null: false
+    t.integer "inquiry_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feature_id"], name: "index_feature_assignments_on_feature_id"
+    t.index ["inquiry_id"], name: "index_feature_assignments_on_inquiry_id"
+  end
+
+  create_table "features", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "inquiries", force: :cascade do |t|
+    t.integer "assignee_id", null: false
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.string "customer_name"
+    t.text "delete_reason"
+    t.datetime "deleted_at"
+    t.date "due_date"
+    t.string "inquiry_no"
+    t.string "phone_number"
+    t.integer "priority"
+    t.integer "status"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.index ["assignee_id"], name: "index_inquiries_on_assignee_id"
+  end
+
+  create_table "inquiry_status_histories", force: :cascade do |t|
+    t.integer "changed_by_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "from_status"
+    t.integer "inquiry_id", null: false
+    t.text "reason"
+    t.integer "to_status"
+    t.datetime "updated_at", null: false
+    t.index ["changed_by_id"], name: "index_inquiry_status_histories_on_changed_by_id"
+    t.index ["inquiry_id"], name: "index_inquiry_status_histories_on_inquiry_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "ip_address"
@@ -33,5 +77,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_04_062056) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "feature_assignments", "features"
+  add_foreign_key "feature_assignments", "inquiries"
+  add_foreign_key "inquiries", "assignees"
+  add_foreign_key "inquiry_status_histories", "changed_bies"
+  add_foreign_key "inquiry_status_histories", "inquiries"
   add_foreign_key "sessions", "users"
 end

@@ -1,0 +1,36 @@
+<h1>問い合わせ一覧</h1>
+
+<p><%= link_to "トップページに戻る", root_path %></p>
+<p><%= link_to "新規登録", new_inquiry_path, class: "menu-link" %></p>
+
+<table class="simple-table">
+  <thead>
+    <tr>
+      <th>問い合わせNo</th>
+      <th>タイトル</th>
+      <th>機能</th>
+      <th>ステータス</th>
+      <th>優先度</th>
+      <th>担当者</th>
+      <th>期日</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @inquiries.each do |inquiry| %>
+      <tr>
+        <td><%= inquiry.inquiry_no %></td>
+        <td><%= inquiry.title %></td>
+        <td><%= inquiry.features.map(&:name).join(" / ") %></td>
+        <td><%= inquiry.status %></td>
+        <td><%= inquiry.priority %></td>
+        <td><%= inquiry.assignee&.name %></td>
+        <td><%= inquiry.due_date %></td>
+        <td>
+          <%= link_to "詳細", inquiry_path(inquiry) %> |
+          <%= link_to "編集", edit_inquiry_path(inquiry) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
