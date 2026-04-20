@@ -22,8 +22,8 @@
         <td><%= inquiry.inquiry_no %></td>
         <td><%= inquiry.title %></td>
         <td><%= inquiry.features.map(&:name).join(" / ") %></td>
-        <td><%= inquiry.status %></td>
-        <td><%= inquiry.priority %></td>
+        <td><%= inquiry_status_label(inquiry.status) %></td>
+        <td><%= inquiry_priority_label(inquiry.priority) %></td>
         <td><%= inquiry.assignee&.name %></td>
         <td><%= inquiry.due_date %></td>
         <td>

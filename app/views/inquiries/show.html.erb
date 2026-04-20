@@ -6,8 +6,8 @@
 <p><strong>事業者:</strong> <%= @inquiry.customer_name %></p>
 <p><strong>電話番号:</strong> <%= @inquiry.phone_number %></p>
 <p><strong>機能:</strong> <%= @inquiry.features.map(&:name).join(" / ") %></p>
-<p><strong>ステータス:</strong> <%= @inquiry.status %></p>
-<p><strong>優先度:</strong> <%= @inquiry.priority %></p>
+<p><strong>ステータス:</strong> <%= inquiry_status_label(@inquiry.status) %></p>
+<p><strong>優先度:</strong> <%= inquiry_priority_label(@inquiry.priority) %></p>
 <p><strong>期日:</strong> <%= @inquiry.due_date %></p>
 <p><strong>担当者:</strong> <%= @inquiry.assignee&.name %></p>
 
@@ -25,8 +25,8 @@
   <tbody>
     <% @inquiry.inquiry_status_histories.order(created_at: :desc).each do |history| %>
       <tr>
-        <td><%= history.from_status %></td>
-        <td><%= history.to_status %></td>
+        <td><%= inquiry_status_label(history.from_status) %></td>
+        <td><%= inquiry_status_label(history.to_status) %></td>
         <td><%= history.reason %></td>
         <td><%= history.changed_by&.name %></td>
         <td><%= history.created_at %></td>

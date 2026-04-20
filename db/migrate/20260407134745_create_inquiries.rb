@@ -9,7 +9,7 @@ class CreateInquiries < ActiveRecord::Migration[8.1]
       t.integer :status
       t.integer :priority
       t.date :due_date
-      t.references :assignee, null: false, foreign_key: true
+      t.references :assignee, null: false, foreign_key: { to_table: :users }
       t.text :delete_reason
       t.datetime :deleted_at
 

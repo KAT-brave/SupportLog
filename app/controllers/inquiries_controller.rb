@@ -13,17 +13,19 @@ class InquiriesController < ApplicationController
     load_master_data
   end
 
-  def create
-    @inquiry = Inquiry.new(inquiry_params)
-    load_master_data
+def create
+  @inquiry = Inquiry.new(inquiry_params)
+  load_master_data
 
-    if @inquiry.save
-      assign_features
-      redirect_to inquiries_path, notice: "問い合わせを登録しました。"
-    else
-      render :new, status: :unprocessable_entity
-    end
+  feature_ids = params.dig(:inquiry, :feature_ids)&.reject(&:blank?) || []
+  @inquiry.feature_ids = feature_ids
+
+  if @inquiry.save
+    redirect_to inquiries_path, notice: "問い合わせを登録しました。"
+  else
+    render :new, status: :unprocessable_entity
   end
+end
 
   def edit
     load_master_data
@@ -74,7 +76,8 @@ class InquiriesController < ApplicationController
       :status,
       :priority,
       :due_date,
-      :assignee_id
+      :assignee_id,
+      feature_ids: []
     )
   end
 

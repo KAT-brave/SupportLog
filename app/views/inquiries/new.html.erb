@@ -38,7 +38,7 @@
 
   <div class="form-group">
     <%= f.label :priority, "優先度" %>
-    <%= f.select :priority, [["低", "low"], ["中", "medium"], ["高", "high"]] %>
+    <%= f.select :priority, [["障害", "incident"], ["高", "high"], ["中", "medium"], ["低", "low"]] %>
   </div>
 
   <div class="form-group">
@@ -54,6 +54,16 @@
   <div class="form-group">
     <%= f.submit "登録する" %>
   </div>
+  <% if @inquiry.errors.any? %>
+  <div class="alert">
+    <p>入力内容を確認してください。</p>
+    <ul>
+      <% @inquiry.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 <% end %>
 
 <div class="link-group">

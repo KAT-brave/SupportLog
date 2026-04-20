@@ -1,5 +1,5 @@
 class Inquiry < ApplicationRecord
-  belongs_to :assignee, class_name: "User"
+  belongs_to :assignee, class_name: "User", foreign_key: :assignee_id
 
   has_many :feature_assignments, dependent: :destroy
   has_many :features, through: :feature_assignments
@@ -7,7 +7,7 @@ class Inquiry < ApplicationRecord
   has_many :inquiry_status_histories, dependent: :destroy
 
   enum :status, { unhandled: 0, in_progress: 1, completed: 2 }
-  enum :priority, { low: 0, medium: 1, high: 2 }
+  enum :priority, { incident: 0, high: 1, medium: 2, low: 3 }
 
   validates :title, presence: true
   validates :body, presence: true

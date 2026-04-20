@@ -79,7 +79,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_135007) do
 
   add_foreign_key "feature_assignments", "features"
   add_foreign_key "feature_assignments", "inquiries"
-  add_foreign_key "inquiries", "assignees"
+  add_foreign_key "inquiries", "users", column: "assignee_id"
   add_foreign_key "inquiry_status_histories", "changed_bies"
   add_foreign_key "inquiry_status_histories", "inquiries"
   add_foreign_key "sessions", "users"
