@@ -227,3 +227,35 @@ a:hover {
   background-color: #16306d;
   text-decoration: none;
 }
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 24px;
+  align-items: flex-start;
+}
+
+.menu-buttons form {
+  margin: 0;
+}
+
+.menu-button,
+.menu-buttons a,
+.menu-buttons button {
+  display: inline-block;
+  padding: 12px 18px;
+  background-color: #1f3f93;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.menu-button:hover,
+.menu-buttons a:hover,
+.menu-buttons button:hover {
+  opacity: 0.9;
+}

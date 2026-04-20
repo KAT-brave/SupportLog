@@ -1,27 +1,23 @@
 <h1>サポートログ</h1>
+<p>サポートログのトップページです。</p>
 
-<div class="home-card">
-  <p class="home-text">
-    サポートログのトップページです。
+<% if Current.user %>
+  <p class="login-status">
+    ログイン中: <%= Current.user.name %>（<%= Current.user.email_address %>）
   </p>
 
-  <% if Current.user %>
-    <p class="login-user">
-      ログイン中: <strong><%= Current.user.name %></strong>
-      （<%= Current.user.email_address %>）
-    </p>
-  <% else %>
-    <p class="home-text">
-      ログイン、またはユーザー登録を行ってください。
-    </p>
-  <% end %>
+  <div class="menu-buttons">
+    <%= link_to "問い合わせ一覧へ", inquiries_path, class: "menu-button" %>
 
-  <div class="menu-links">
-    <%= link_to "ログイン画面へ", new_session_path, class: "menu-link" %>
-    <%= link_to "ユーザー登録画面へ", new_registration_path, class: "menu-link" %>
-
-    <% if Current.user&.admin? %>
-      <%= link_to "ユーザー一覧へ", admin_users_path, class: "menu-link" %>
+    <% if Current.user.admin? %>
+      <%= link_to "ユーザー一覧へ", admin_users_path, class: "menu-button" %>
     <% end %>
+
+    <%= button_to "ログアウト", session_path, method: :delete, class: "menu-button logout-button" %>
   </div>
-</div>
+  <% else %>
+    <div class="menu-buttons">
+      <%= link_to "ログイン画面へ", new_session_path, class: "menu-button" %>
+      <%= link_to "ユーザー登録画面へ", new_user_path, class: "menu-button" %>
+    </div>
+<% end %>
