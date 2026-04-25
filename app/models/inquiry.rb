@@ -15,6 +15,7 @@ class Inquiry < ApplicationRecord
   validates :priority, presence: true
   validates :due_date, presence: true
   validates :assignee_id, presence: true
+  validates :response_content, length: { maximum: 5000 }, allow_blank: true
 
   validate :features_must_be_present
 

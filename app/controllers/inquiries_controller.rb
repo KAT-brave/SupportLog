@@ -71,6 +71,7 @@ end
     params.require(:inquiry).permit(
       :title,
       :body,
+      :response_content,
       :customer_name,
       :phone_number,
       :status,

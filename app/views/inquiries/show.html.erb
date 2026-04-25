@@ -2,7 +2,8 @@
 
 <p><strong>問い合わせNo:</strong> <%= @inquiry.inquiry_no %></p>
 <p><strong>タイトル:</strong> <%= @inquiry.title %></p>
-<p><strong>本文:</strong> <%= @inquiry.body %></p>
+<p><strong>問い合わせ:</strong> <%= @inquiry.body %></p>
+<p><strong>対応:</strong> <%= @inquiry.response_content.present? ? simple_format(@inquiry.response_content) : "未入力" %></p>
 <p><strong>事業者:</strong> <%= @inquiry.customer_name %></p>
 <p><strong>電話番号:</strong> <%= @inquiry.phone_number %></p>
 <p><strong>機能:</strong> <%= @inquiry.features.map(&:name).join(" / ") %></p>

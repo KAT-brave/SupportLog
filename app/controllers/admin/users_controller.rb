@@ -40,21 +40,19 @@ module Admin
       redirect_to admin_users_path, notice: "ユーザーを却下し、通知メールを送信しました。"
     end
 
-    def destroy
-      user = User.find(params[:id])
+  def destroy
+    user = User.find(params[:id])
 
-      unless user.approved?
-        redirect_to admin_users_path, alert: "承認済みユーザーのみ削除できます。"
-        return
-      end
+    if user.assigned_inquiries.exists?
+      redirect_to admin_users_path, alert: "このユーザーは担当中の問い合わせがあるため削除できません。担当を外してから削除してください。"
+      return
+  end
 
-      email_address = user.email_address
-      user.destroy!
+    UserMailer.with(user: user).account_deleted_notification.deliver_now
+    user.destroy!
 
-      UserMailer.with(email_address: email_address).account_deleted_notification.deliver_now
-
-      redirect_to admin_users_path, notice: "ユーザーを削除し、通知メールを送信しました。"
-    end
+  r edirect_to admin_users_path, notice: "ユーザーを削除し、通知メールを送信しました。"
+  end
 
     private
 

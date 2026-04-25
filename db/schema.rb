@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_07_135007) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_25_000130) do
   create_table "feature_assignments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "feature_id", null: false
@@ -37,6 +37,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_135007) do
     t.string "inquiry_no"
     t.string "phone_number"
     t.integer "priority"
+    t.text "response_content"
     t.integer "status"
     t.string "title"
     t.datetime "updated_at", null: false
