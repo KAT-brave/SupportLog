@@ -1,7 +1,7 @@
 <h1>問い合わせ一覧</h1>
 
-<p><%= link_to "トップページに戻る", root_path %></p>
-<p><%= link_to "新規登録", new_inquiry_path, class: "menu-link" %></p>
+<%= link_to "トップページに戻る", root_path, class: "text-link" %>
+<p><%= link_to "新規登録", new_inquiry_path, class: "primary-button" %>/p>
 
 <table class="simple-table">
   <thead>
@@ -22,8 +22,16 @@
         <td><%= inquiry.inquiry_no %></td>
         <td><%= inquiry.title %></td>
         <td><%= inquiry.features.map(&:name).join(" / ") %></td>
-        <td><%= inquiry_status_label(inquiry.status) %></td>
-        <td><%= inquiry_priority_label(inquiry.priority) %></td>
+        <td>
+          <span class="status-badge status-<%= inquiry.status %>">
+            <%= inquiry.status_i18n %>
+          </span>
+        </td>
+        <td>
+          <span class="priority-badge priority-<%= inquiry.priority %>">
+            <%= inquiry.priority_i18n %>
+          </span>
+        </td>
         <td><%= inquiry.assignee&.name %></td>
         <td><%= inquiry.due_date %></td>
         <td>

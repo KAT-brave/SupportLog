@@ -27,6 +27,24 @@ class Inquiry < ApplicationRecord
     update!(deleted_at: Time.current, delete_reason: reason)
   end
 
+    def status_i18n
+      {
+        "unhandled" => "未対応",
+        "in_progress" => "対応中",
+        "completed" => "完了"
+      }[status]
+    end
+
+    def priority_i18n
+      {
+       "incident" => "障害",
+        "high" => "高",
+        "medium" => "中",
+        "low" => "低"
+      }[priority]
+    end
+  end
+
   private
 
   def set_inquiry_no
@@ -39,4 +57,3 @@ class Inquiry < ApplicationRecord
   def features_must_be_present
     errors.add(:features, "を1つ以上選択してください") if features.blank?
   end
-end
