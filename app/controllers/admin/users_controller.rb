@@ -51,7 +51,7 @@ module Admin
     UserMailer.with(user: user).account_deleted_notification.deliver_now
     user.destroy!
 
-  r edirect_to admin_users_path, notice: "ユーザーを削除し、通知メールを送信しました。"
+    redirect_to admin_users_path, notice: "ユーザーを削除し、通知メールを送信しました。"
   end
 
     private

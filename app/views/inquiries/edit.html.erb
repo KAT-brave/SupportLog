@@ -57,8 +57,8 @@
   </div>
 
   <div class="form-group">
-    <%= f.label :assignee_id, "担当者" %>
-    <%= f.collection_select :assignee_id, @assignees, :id, :name, prompt: "選択してください" %>
+    <label>担当者</label>
+    <div><%= @inquiry.assignee.name %></div>
   </div>
 
   <div class="form-group">

@@ -10,11 +10,13 @@ class InquiriesController < ApplicationController
 
   def new
     @inquiry = Inquiry.new(status: :unhandled, priority: :medium)
+    @inquiry.assignee = Current.user
     load_master_data
   end
 
 def create
   @inquiry = Inquiry.new(inquiry_params)
+  @inquiry.assignee = Current.user
   load_master_data
 
   feature_ids = params.dig(:inquiry, :feature_ids)&.reject(&:blank?) || []
@@ -77,14 +79,12 @@ end
       :status,
       :priority,
       :due_date,
-      :assignee_id,
       feature_ids: []
     )
   end
 
   def load_master_data
     @features = Feature.order(:name)
-    @assignees = User.where(approved_at: ..Time.current).order(:name)
   end
 
   def assign_features

@@ -14,7 +14,7 @@
   <div>
     <%= f.label :response_content, "対応" %><br>
     <%= f.text_area :response_content, rows: 6 %>
-  </div>
+</div>
 
   <div class="form-group">
     <%= f.label :customer_name, "事業者（Customer）" %>
@@ -52,8 +52,8 @@
   </div>
 
   <div class="form-group">
-    <%= f.label :assignee_id, "担当者" %>
-    <%= f.collection_select :assignee_id, @assignees, :id, :name, prompt: "選択してください" %>
+    <label>担当者</label>
+    <div><%= Current.user.name %></div>
   </div>
 
   <div class="form-group">
