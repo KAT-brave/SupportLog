@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_25_000130) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_26_124618) do
   create_table "feature_assignments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "feature_id", null: false
@@ -81,7 +81,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_25_000130) do
   add_foreign_key "feature_assignments", "features"
   add_foreign_key "feature_assignments", "inquiries"
   add_foreign_key "inquiries", "users", column: "assignee_id"
-  add_foreign_key "inquiry_status_histories", "changed_bies"
   add_foreign_key "inquiry_status_histories", "inquiries"
+  add_foreign_key "inquiry_status_histories", "users", column: "changed_by_id"
   add_foreign_key "sessions", "users"
 end
