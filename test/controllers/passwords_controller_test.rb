@@ -65,7 +65,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
       assert_response :unprocessable_entity
     end
 
-    assert_select "body", /Password confirmation/
+    assert_select "body", /パスワード（確認用）がパスワードと一致していません/
   end
 
   private
