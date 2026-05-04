@@ -46,7 +46,7 @@ module Admin
     if user.assigned_inquiries.exists?
       redirect_to admin_users_path, alert: "このユーザーは担当中の問い合わせがあるため削除できません。担当を外してから削除してください。"
       return
-  end
+    end
 
     UserMailer.with(user: user).account_deleted_notification.deliver_now
     user.destroy!

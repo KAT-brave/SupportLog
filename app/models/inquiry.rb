@@ -43,7 +43,7 @@ class Inquiry < ApplicationRecord
         "low" => "低"
       }[priority]
     end
-  end
+end
 
   private
 
