@@ -17,6 +17,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :passwords, param: :token
+
   namespace :admin do
     resources :users, only: %i[index destroy] do
       member do

@@ -1,6 +1,6 @@
 class PasswordsController < ApplicationController
   allow_unauthenticated_access
-  before_action :set_user_by_token, only: %i[ edit update ]
+  before_action :set_user_by_token, only: %i[edit update]
   rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_password_path, alert: "Try again later." }
 
   def new
@@ -18,12 +18,13 @@ class PasswordsController < ApplicationController
   end
 
   def update
-  if @user.update(password_params)
-    @user.sessions.destroy_all
-    redirect_to new_session_path, notice: "Password has been reset."
-  else
-    redirect_to edit_password_path(params[:token]), alert: "Passwords did not match."
-  end
+    if @user.update(password_params)
+      @user.sessions.destroy_all
+      redirect_to new_session_path, notice: "Password has been reset."
+    else
+      flash.now[:alert] = @user.errors.full_messages.join(", ").presence || "Passwords did not match."
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   private
