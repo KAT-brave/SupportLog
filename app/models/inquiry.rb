@@ -1,5 +1,8 @@
 class Inquiry < ApplicationRecord
   belongs_to :assignee, class_name: "User", foreign_key: :assignee_id
+  belongs_to :created_by, class_name: "User", optional: true
+  belongs_to :updated_by, class_name: "User", optional: true
+  belongs_to :deleted_by, class_name: "User", optional: true
 
   has_many :feature_assignments, dependent: :destroy
   has_many :features, through: :feature_assignments
@@ -51,9 +54,9 @@ end
     return if inquiry_no.present?
 
     next_number = Inquiry.maximum(:id).to_i + 1
-    self.inquiry_no = format("INQ%05d", next_number)
+    self.inquiry_no = format("No.%05d", next_number)
   end
 
   def features_must_be_present
-    errors.add(:features, "を1つ以上選択してください") if features.blank?
+    errors.add(:features, "を1つ以上選択して下さい") if features.blank?
   end

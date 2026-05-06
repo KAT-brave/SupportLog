@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_26_124618) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_06_051429) do
   create_table "feature_assignments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "feature_id", null: false
@@ -30,9 +30,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_26_124618) do
     t.integer "assignee_id", null: false
     t.text "body"
     t.datetime "created_at", null: false
+    t.integer "created_by_id"
     t.string "customer_name"
     t.text "delete_reason"
     t.datetime "deleted_at"
+    t.integer "deleted_by_id"
     t.date "due_date"
     t.string "inquiry_no"
     t.string "phone_number"
@@ -41,7 +43,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_26_124618) do
     t.integer "status"
     t.string "title"
     t.datetime "updated_at", null: false
+    t.integer "updated_by_id"
     t.index ["assignee_id"], name: "index_inquiries_on_assignee_id"
+    t.index ["created_by_id"], name: "index_inquiries_on_created_by_id"
+    t.index ["deleted_by_id"], name: "index_inquiries_on_deleted_by_id"
+    t.index ["updated_by_id"], name: "index_inquiries_on_updated_by_id"
   end
 
   create_table "inquiry_status_histories", force: :cascade do |t|
@@ -69,6 +75,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_26_124618) do
     t.boolean "admin"
     t.datetime "approved_at"
     t.datetime "created_at", null: false
+    t.datetime "deleted_at"
     t.string "email_address", null: false
     t.string "name"
     t.string "password_digest", null: false
@@ -81,6 +88,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_26_124618) do
   add_foreign_key "feature_assignments", "features"
   add_foreign_key "feature_assignments", "inquiries"
   add_foreign_key "inquiries", "users", column: "assignee_id"
+  add_foreign_key "inquiries", "users", column: "created_by_id"
+  add_foreign_key "inquiries", "users", column: "deleted_by_id"
+  add_foreign_key "inquiries", "users", column: "updated_by_id"
   add_foreign_key "inquiry_status_histories", "inquiries"
   add_foreign_key "inquiry_status_histories", "users", column: "changed_by_id"
   add_foreign_key "sessions", "users"

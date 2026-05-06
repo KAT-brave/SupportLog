@@ -14,20 +14,21 @@ class InquiriesController < ApplicationController
     load_master_data
   end
 
-def create
-  @inquiry = Inquiry.new(inquiry_params)
-  @inquiry.assignee = Current.user
-  load_master_data
+  def create
+    @inquiry = Inquiry.new(inquiry_params)
+    @inquiry.assignee = Current.user
+    @inquiry.created_by = Current.user
+    load_master_data
 
-  feature_ids = params.dig(:inquiry, :feature_ids)&.reject(&:blank?) || []
-  @inquiry.feature_ids = feature_ids
+    feature_ids = params.dig(:inquiry, :feature_ids)&.reject(&:blank?) || []
+    @inquiry.feature_ids = feature_ids
 
-  if @inquiry.save
-    redirect_to inquiries_path, notice: "問い合わせを登録しました。"
-  else
-    render :new, status: :unprocessable_entity
+    if @inquiry.save
+      redirect_to inquiries_path, notice: "問い合わせを登録しました。"
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
-end
 
   def edit
     load_master_data
@@ -37,15 +38,17 @@ end
     load_master_data
     old_status = @inquiry.status
 
-    if old_status != inquiry_params[:status] && params[:status_change_reason].blank?
-      @inquiry.assign_attributes(inquiry_params)
+    @inquiry.assign_attributes(inquiry_params)
+    @inquiry.updated_by = Current.user
+    assign_features
+
+    if old_status != @inquiry.status && params[:status_change_reason].blank?
       @inquiry.errors.add(:base, "ステータス変更理由を入力してください。")
       render :edit, status: :unprocessable_entity
       return
     end
 
-    if @inquiry.update(inquiry_params)
-      assign_features
+    if @inquiry.save
       create_status_history_if_needed(old_status)
       redirect_to inquiries_path, notice: "問い合わせを更新しました。"
     else
@@ -59,14 +62,18 @@ end
       return
     end
 
-    @inquiry.soft_delete!(reason: params[:delete_reason])
+    @inquiry.soft_delete!(
+      reason: params[:delete_reason],
+      deleted_by: Current.user
+    )
+
     redirect_to inquiries_path, notice: "問い合わせを削除しました。"
   end
 
   private
 
   def set_inquiry
-    @inquiry = Inquiry.find(params[:id])
+    @inquiry = Inquiry.active.find(params[:id])
   end
 
   def inquiry_params
@@ -88,7 +95,7 @@ end
   end
 
   def assign_features
-    feature_ids = params[:inquiry][:feature_ids]&.reject(&:blank?) || []
+    feature_ids = params.dig(:inquiry, :feature_ids)&.reject(&:blank?) || []
     @inquiry.feature_ids = feature_ids
   end
 

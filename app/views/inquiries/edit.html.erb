@@ -1,6 +1,17 @@
 <h1>問い合わせ編集</h1>
 
 <%= form_with model: @inquiry do |f| %>
+  <% if @inquiry.errors.any? %>
+    <div class="alert">
+      <p>入力内容を確認してください。</p>
+      <ul>
+        <% @inquiry.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <div class="form-group">
     <%= f.label :title, "タイトル" %>
     <%= f.text_field :title %>
@@ -11,13 +22,13 @@
     <%= f.text_area :body, rows: 6 %>
   </div>
 
-  <div>
-    <%= f.label :response_content, "対応" %><br>
+  <div class="form-group">
+    <%= f.label :response_content, "対応" %>
     <%= f.text_area :response_content, rows: 6 %>
   </div>
 
   <div class="form-group">
-    <%= f.label :customer_name, "事業者（Customer）" %>
+    <%= f.label :customer_name, "事業者" %>
     <%= f.text_field :customer_name %>
   </div>
 
@@ -27,7 +38,7 @@
   </div>
 
   <div class="form-group">
-    <%= label_tag "inquiry_feature_ids", "機能（Feature）" %><br>
+    <%= label_tag "inquiry_feature_ids", "機能" %><br>
     <% @features.each do |feature| %>
       <div>
         <%= check_box_tag "inquiry[feature_ids][]", feature.id, @inquiry.feature_ids.include?(feature.id) %>
@@ -51,14 +62,32 @@
     <%= f.select :priority, [["障害", "incident"], ["高", "high"], ["中", "medium"], ["低", "low"]] %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :due_date, "期日" %>
-    <%= f.date_field :due_date %>
-  </div>
+   <div class="form-card">
+    <h2>管理情報</h2>
 
-  <div class="form-group">
-    <label>担当者</label>
-    <div><%= @inquiry.assignee.name %></div>
+    <div class="detail-list">
+      <div class="detail-row">
+        <div class="detail-label">登録者</div>
+        <div class="detail-value"><%= @inquiry.created_by&.display_name || @inquiry.assignee&.display_name || "-" %></div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">登録日</div>
+        <div class="detail-value"><%= l @inquiry.created_at, format: :datetime %></div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">更新者</div>
+        <div class="detail-value"><%= @inquiry.updated_by&.display_name || "-" %></div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">更新日</div>
+        <div class="detail-value">
+          <%= @inquiry.updated_by.present? ? l(@inquiry.updated_at, format: :datetime) : "-" %>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="form-group">
@@ -77,16 +106,6 @@
   <div class="form-group">
     <%= submit_tag "削除する", data: { turbo_confirm: "本当に削除しますか？" } %>
   </div>
-  <% if @inquiry.errors.any? %>
-  <div class="alert">
-    <p>入力内容を確認してください。</p>
-    <ul>
-      <% @inquiry.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
 <% end %>
 
 <div class="link-group">

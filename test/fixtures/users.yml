@@ -13,3 +13,4 @@ two:
   password_digest: <%= password_digest %>
   approved_at: <%= Time.current %>
   admin: true
+  

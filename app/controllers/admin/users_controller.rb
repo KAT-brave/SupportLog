@@ -41,15 +41,15 @@ module Admin
     end
 
   def destroy
-    user = User.find(params[:id])
+    @user = User.find(params[:id])
 
-    if user.assigned_inquiries.exists?
-      redirect_to admin_users_path, alert: "このユーザーは担当中の問い合わせがあるため削除できません。担当を外してから削除してください。"
+    unless @user.deletable_by_admin?
+      redirect_to admin_users_path,
+                alert: "このユーザーは未対応または対応中の問い合わせを担当しているため削除できません。すべて完了にしてから削除してください。"
       return
     end
 
-    UserMailer.with(user: user).account_deleted_notification.deliver_now
-    user.destroy!
+    @user.soft_delete!
 
     redirect_to admin_users_path, notice: "ユーザーを削除し、通知メールを送信しました。"
   end

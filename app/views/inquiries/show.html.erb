@@ -59,15 +59,26 @@
     </div>
 
     <div class="detail-row">
-      <div class="detail-label">期日</div>
-      <div class="detail-value"><%= @inquiry.due_date %></div>
+      <div class="detail-label">登録者</div>
+      <div class="detail-value"><%= @inquiry.created_by&.display_name || @inquiry.assignee&.display_name || "-" %></div>
     </div>
 
     <div class="detail-row">
-      <div class="detail-label">担当者</div>
-      <div class="detail-value"><%= @inquiry.assignee&.name %></div>
+      <div class="detail-label">登録日</div>
+      <div class="detail-value"><%= l @inquiry.created_at, format: :datetime %></div>
     </div>
-  </div>
+
+    <div class="detail-row">
+      <div class="detail-label">更新者</div>
+      <div class="detail-value"><%= @inquiry.updated_by&.display_name || "-" %></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">更新日</div>
+      <div class="detail-value">
+        <%= @inquiry.updated_by.present? ? l(@inquiry.updated_at, format: :datetime) : "-" %>
+      </div>
+    </div>
 
   <h2 class="sub-title">ステータス変更履歴</h2>
   <table class="simple-table">
@@ -86,7 +97,7 @@
           <td><%= inquiry_status_label(history.from_status) %></td>
           <td><%= inquiry_status_label(history.to_status) %></td>
           <td><%= history.reason %></td>
-          <td><%= history.changed_by&.name %></td>
+          <td><%= history.changed_by&.display_name || "変更者不明" %></td>
           <td><%= history.created_at %></td>
         </tr>
       <% end %>
