@@ -1,0 +1,44 @@
+ja:
+  errors:
+    format: "%{attribute}%{message}"
+
+  time:
+    formats:
+      approval_datetime: "%Y/%m/%d %H:%M"
+      datetime: "%Y/%m/%d %H:%M"
+
+  activerecord:
+    attributes:
+      user:
+        name: "名前"
+        email_address: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード（確認用）"
+      inquiry:
+        title: "タイトル"
+        body: "問い合わせ内容"
+        due_date: "期日"
+        features: "機能"
+
+    errors:
+      models:
+        user:
+          attributes:
+            password_confirmation:
+              confirmation: "がパスワードと一致していません"
+            name:
+              blank: "を入力してください"
+        inquiry:
+          attributes:
+            title:
+              blank: "を入力して下さい"
+            body:
+              blank: "を入力して下さい"
+            due_date:
+              blank: "を選択して下さい"
+            features:
+              blank: "を1つ以上選択してください"
+
+      messages:
+        blank: "を入力してください"
+        confirmation: "が一致していません"

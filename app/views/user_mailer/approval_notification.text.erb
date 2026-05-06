@@ -1,0 +1,12 @@
+申込承認のお知らせ
+
+<%= @user.name %> 様
+
+SupportLogへのお申し込みについて、管理者による承認が完了しました。
+
+承認日時: <%= l @user.approved_at, format: :approval_datetime %>
+
+ログイン画面:
+<%= new_session_url %>
+
+ご不明点がございましたら、管理者までお問い合わせください。

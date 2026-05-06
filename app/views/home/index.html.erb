@@ -1,0 +1,23 @@
+<h1>SupportLog</h1>
+<p>SupportLogのトップページです。</p>
+
+<% if Current.user %>
+  <p class="login-status">
+    ログイン中: <%= Current.user.name %>（<%= Current.user.email_address %>）
+  </p>
+
+  <div class="menu-buttons">
+    <%= link_to "問い合わせ一覧へ", inquiries_path, class: "menu-button" %>
+
+    <% if Current.user.admin? %>
+      <%= link_to "ユーザー一覧へ", admin_users_path, class: "menu-button" %>
+    <% end %>
+
+    <%= button_to "ログアウト", session_path, method: :delete, class: "menu-button logout-button" %>
+  </div>
+  <% else %>
+    <div class="menu-buttons">
+      <%= link_to "ログイン画面へ", new_session_path, class: "menu-button" %>
+      <%= link_to "ユーザー登録画面へ", new_user_path, class: "menu-button" %>
+    </div>
+<% end %>

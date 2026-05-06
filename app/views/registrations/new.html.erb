@@ -1,0 +1,32 @@
+<h1>ユーザー登録</h1>
+
+<%= form_with model: @user, url: registration_path do |f| %>
+  <div class="form-group">
+    <%= f.label :name, "名前" %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :email_address, "メールアドレス" %>
+    <%= f.email_field :email_address %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password, "パスワード" %>
+    <%= f.password_field :password %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password_confirmation, "パスワード確認" %>
+    <%= f.password_field :password_confirmation %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit "登録する" %>
+  </div>
+<% end %>
+
+<div class="link-group">
+  <p><%= link_to "トップページに戻る", root_path %></p>
+  <p><%= link_to "ログイン画面へ", new_session_path %></p>
+</div>

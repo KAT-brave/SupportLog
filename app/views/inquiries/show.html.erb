@@ -1,0 +1,110 @@
+<div class="form-card">
+  <h1 class="form-title">問い合わせ詳細</h1>
+  <p class="form-description">問い合わせ内容の詳細を確認できます。</p>
+
+  <div class="detail-list">
+    <div class="detail-row">
+      <div class="detail-label">問い合わせNo</div>
+      <div class="detail-value"><%= @inquiry.inquiry_no %></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">タイトル</div>
+      <div class="detail-value"><%= @inquiry.title %></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">問い合わせ</div>
+      <div class="detail-value"><%= simple_format(@inquiry.body) %></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">対応</div>
+      <div class="detail-value">
+        <%= simple_format(@inquiry.response_content.presence || "未入力") %>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">事業者</div>
+      <div class="detail-value"><%= @inquiry.customer_name %></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">電話番号</div>
+      <div class="detail-value"><%= @inquiry.phone_number %></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">機能</div>
+      <div class="detail-value"><%= @inquiry.features.map(&:name).join(" / ") %></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">ステータス</div>
+      <div class="detail-value">
+        <span class="status-badge status-<%= @inquiry.status %>">
+          <%= inquiry_status_label(@inquiry.status) %>
+        </span>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">優先度</div>
+      <div class="detail-value">
+        <span class="priority-badge priority-<%= @inquiry.priority %>">
+          <%= inquiry_priority_label(@inquiry.priority) %>
+        </span>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">登録者</div>
+      <div class="detail-value"><%= @inquiry.created_by&.display_name || @inquiry.assignee&.display_name || "-" %></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">登録日</div>
+      <div class="detail-value"><%= l @inquiry.created_at, format: :datetime %></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">更新者</div>
+      <div class="detail-value"><%= @inquiry.updated_by&.display_name || "-" %></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">更新日</div>
+      <div class="detail-value">
+        <%= @inquiry.updated_by.present? ? l(@inquiry.updated_at, format: :datetime) : "-" %>
+      </div>
+    </div>
+
+  <h2 class="sub-title">ステータス変更履歴</h2>
+  <table class="simple-table">
+    <thead>
+      <tr>
+        <th>変更前</th>
+        <th>変更後</th>
+        <th>理由</th>
+        <th>変更者</th>
+        <th>変更日時</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @inquiry.inquiry_status_histories.order(created_at: :desc).each do |history| %>
+        <tr>
+          <td><%= inquiry_status_label(history.from_status) %></td>
+          <td><%= inquiry_status_label(history.to_status) %></td>
+          <td><%= history.reason %></td>
+          <td><%= history.changed_by&.display_name || "変更者不明" %></td>
+          <td><%= history.created_at %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="form-actions">
+    <%= link_to "一覧へ戻る", inquiries_path, class: "secondary-button" %>
+  </div>
+</div>

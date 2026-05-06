@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  inquiry_no: MyString
+  title: MyString
+  body: MyText
+  customer_name: MyString
+  phone_number: MyString
+  status: 1
+  priority: 1
+  due_date: 2026-04-07
+  assignee: one
+  delete_reason: MyText
+  deleted_at: 2026-04-07 22:47:45
+
+two:
+  inquiry_no: MyString
+  title: MyString
+  body: MyText
+  customer_name: MyString
+  phone_number: MyString
+  status: 1
+  priority: 1
+  due_date: 2026-04-07
+  assignee: two
+  delete_reason: MyText
+  deleted_at: 2026-04-07 22:47:45

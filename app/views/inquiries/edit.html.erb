@@ -1,0 +1,113 @@
+<h1>問い合わせ編集</h1>
+
+<%= form_with model: @inquiry do |f| %>
+  <% if @inquiry.errors.any? %>
+    <div class="alert">
+      <p>入力内容を確認してください。</p>
+      <ul>
+        <% @inquiry.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :title, "タイトル" %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :body, "問い合わせ" %>
+    <%= f.text_area :body, rows: 6 %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :response_content, "対応" %>
+    <%= f.text_area :response_content, rows: 6 %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :customer_name, "事業者" %>
+    <%= f.text_field :customer_name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :phone_number, "電話番号" %>
+    <%= f.text_field :phone_number %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag "inquiry_feature_ids", "機能" %><br>
+    <% @features.each do |feature| %>
+      <div>
+        <%= check_box_tag "inquiry[feature_ids][]", feature.id, @inquiry.feature_ids.include?(feature.id) %>
+        <%= feature.name %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :status, "ステータス" %>
+    <%= f.select :status, [["未対応", "unhandled"], ["対応中", "in_progress"], ["完了", "completed"]] %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :status_change_reason, "ステータス変更理由" %>
+    <%= text_area_tag :status_change_reason, nil, rows: 3 %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :priority, "優先度" %>
+    <%= f.select :priority, [["障害", "incident"], ["高", "high"], ["中", "medium"], ["低", "low"]] %>
+  </div>
+
+   <div class="form-card">
+    <h2>管理情報</h2>
+
+    <div class="detail-list">
+      <div class="detail-row">
+        <div class="detail-label">登録者</div>
+        <div class="detail-value"><%= @inquiry.created_by&.display_name || @inquiry.assignee&.display_name || "-" %></div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">登録日</div>
+        <div class="detail-value"><%= l @inquiry.created_at, format: :datetime %></div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">更新者</div>
+        <div class="detail-value"><%= @inquiry.updated_by&.display_name || "-" %></div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">更新日</div>
+        <div class="detail-value">
+          <%= @inquiry.updated_by.present? ? l(@inquiry.updated_at, format: :datetime) : "-" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit "更新する" %>
+  </div>
+<% end %>
+
+<h2>削除</h2>
+
+<%= form_with url: soft_delete_inquiry_path(@inquiry), method: :patch do %>
+  <div class="form-group">
+    <%= label_tag :delete_reason, "削除理由" %>
+    <%= text_area_tag :delete_reason, nil, rows: 3 %>
+  </div>
+
+  <div class="form-group">
+    <%= submit_tag "削除する", data: { turbo_confirm: "本当に削除しますか？" } %>
+  </div>
+<% end %>
+
+<div class="link-group">
+  <p><%= link_to "問い合わせ一覧へ", inquiries_path %></p>
+</div>

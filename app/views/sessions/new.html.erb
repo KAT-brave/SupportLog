@@ -1,0 +1,22 @@
+<h1>ログイン</h1>
+
+<%= form_with url: session_path do %>
+  <div class="form-group">
+    <%= label_tag :email_address, "メールアドレス" %>
+    <%= email_field_tag :email_address %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :password, "パスワード" %>
+    <%= password_field_tag :password %>
+  </div>
+
+  <div class="form-group">
+    <%= submit_tag "ログイン" %>
+  </div>
+<% end %>
+
+<div class="link-group">
+  <p><%= link_to "トップページに戻る", root_path %></p>
+  <p><%= link_to "ユーザー登録画面へ", new_registration_path %></p>
+</div>
