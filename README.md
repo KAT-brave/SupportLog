@@ -139,13 +139,7 @@ SupportLog は、社内向けの問い合わせ管理アプリです。
 
 ## ER図
 
-```mermaid
-erDiagram
-    USERS ||--o{ SESSIONS : has
-    USERS ||--o{ INQUIRIES : has
-    INQUIRIES ||--o{ FEATURE_ASSIGNMENTS : has
-    FEATURES ||--o{ FEATURE_ASSIGNMENTS : has
-```
+![ER図](./er-diagram.png)
 
 ---
 
