@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   DEMO_ADMIN_EMAILS = [
-  "demo-admin@example.com",
-  "demo-sub-admin@example.com"
-].freeze
+    "demo-admin@example.com",
+    "demo-sub-admin@example.com"
+  ].freeze
 
   has_secure_password
 
@@ -24,7 +24,7 @@ class User < ApplicationRecord
   scope :deleted, -> { where.not(deleted_at: nil) }
 
   def demo_admin_account?
-  email_address.in?(DEMO_ADMIN_EMAILS)
+    email_address.in?(DEMO_ADMIN_EMAILS)
   end
 
   def approved?

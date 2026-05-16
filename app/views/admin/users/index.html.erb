@@ -2,6 +2,13 @@
 
 <p><%= link_to "トップページに戻る", root_path %></p>
 
+<% if flash[:mail_preview].present? %>
+  <div class="mail-preview">
+    <h2>疑似メール内容</h2>
+    <pre><%= flash[:mail_preview] %></pre>
+  </div>
+<% end %>
+
 <table class="simple-table">
   <thead>
     <tr>
@@ -36,7 +43,7 @@
             -
           <% end %>
         </td>
-        <td><%= user.rejection_reason %></td>
+        <td><%= user.rejection_reason.presence || "-" %></td>
         <td>
           <div class="action-group">
             <% if user.pending? %>

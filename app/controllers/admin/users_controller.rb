@@ -14,9 +14,10 @@ module Admin
         rejection_reason: nil
       )
 
-      UserMailer.with(user: user).approval_notification.deliver_now
+      mail = UserMailer.with(user: user).approval_notification
+      flash[:mail_preview] = notification_preview_text(mail)
 
-      redirect_to admin_users_path, notice: "ユーザーを承認しました。"
+      redirect_to admin_users_path, notice: "ユーザーを承認しました。疑似メール内容を画面に表示しています。"
     end
 
     def reject
@@ -35,9 +36,10 @@ module Admin
         approved_at: nil
       )
 
-      UserMailer.with(user: user, reason: reason).rejection_notification.deliver_now
+      mail = UserMailer.with(user: user, reason: reason).rejection_notification
+      flash[:mail_preview] = notification_preview_text(mail)
 
-      redirect_to admin_users_path, notice: "ユーザーを却下しました。"
+      redirect_to admin_users_path, notice: "ユーザーを却下しました。疑似メール内容を画面に表示しています。"
     end
 
     def destroy
@@ -64,6 +66,26 @@ module Admin
 
     def require_admin
       redirect_to root_path, alert: "権限がありません" unless Current.user&.admin?
+    end
+
+    def notification_preview_text(mail)
+      <<~TEXT
+        【疑似メール】
+        ※ ポートフォリオ用途のため、実際のメール送信は行っていません。
+
+        宛先: #{Array(mail.to).join(", ")}
+        件名: #{mail.subject}
+
+        #{mail_body(mail)}
+      TEXT
+    end
+
+    def mail_body(mail)
+      if mail.text_part
+        mail.text_part.body.decoded
+      else
+        mail.body.decoded
+      end
     end
   end
 end

@@ -57,6 +57,9 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
+  # Do not actually send emails in production for portfolio demo.
+  config.action_mailer.perform_deliveries = false
+
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = {
     host: "supportlog.onrender.com",
@@ -90,5 +93,4 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
-
 end
