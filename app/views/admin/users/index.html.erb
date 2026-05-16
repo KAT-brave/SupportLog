@@ -9,67 +9,69 @@
   </div>
 <% end %>
 
-<table class="simple-table">
-  <thead>
-    <tr>
-      <th>名前</th>
-      <th>メールアドレス</th>
-      <th>管理者</th>
-      <th>状態</th>
-      <th>承認日時</th>
-      <th>理由</th>
-      <th>操作</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
+<div class="table-scroll">
+  <table class="simple-table">
+    <thead>
       <tr>
-        <td><%= user.name %></td>
-        <td><%= user.email_address %></td>
-        <td><%= user.admin? ? "はい" : "いいえ" %></td>
-        <td>
-          <% if user.approved? %>
-            <span class="status-badge status-approved">承認済み</span>
-          <% elsif user.rejected? %>
-            <span class="status-badge status-rejected">却下済み</span>
-          <% else %>
-            <span class="status-badge status-pending">承認待ち</span>
-          <% end %>
-        </td>
-        <td>
-          <% if user.approved_at.present? %>
-            <%= l user.approved_at, format: :approval_datetime %>
-          <% else %>
-            -
-          <% end %>
-        </td>
-        <td><%= user.rejection_reason.presence || "-" %></td>
-        <td>
-          <div class="action-group">
-            <% if user.pending? %>
-              <%= button_to "承認", approve_admin_user_path(user), method: :patch %>
-
-              <%= form_with url: reject_admin_user_path(user), method: :patch, local: true do |f| %>
-                <div class="form-group">
-                  <%= text_field_tag :rejection_reason, nil, placeholder: "却下理由（任意）" %>
-                </div>
-                <%= f.submit "却下" %>
-              <% end %>
-            <% end %>
-
-            <% if user.approved? %>
-              <% if user.demo_admin_account? %>
-                <span class="text-muted">保護中</span>
-              <% else %>
-                <%= button_to "削除",
-                      admin_user_path(user),
-                      method: :delete,
-                      data: { turbo_confirm: "このユーザーを削除しますか？" } %>
-              <% end %>
-            <% end %>
-          </div>
-        </td>
+        <th>名前</th>
+        <th>メールアドレス</th>
+        <th>管理者</th>
+        <th>状態</th>
+        <th>承認日時</th>
+        <th>理由</th>
+        <th>操作</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.email_address %></td>
+          <td><%= user.admin? ? "はい" : "いいえ" %></td>
+          <td>
+            <% if user.approved? %>
+              <span class="status-badge status-approved">承認済み</span>
+            <% elsif user.rejected? %>
+              <span class="status-badge status-rejected">却下済み</span>
+            <% else %>
+              <span class="status-badge status-pending">承認待ち</span>
+            <% end %>
+          </td>
+          <td>
+            <% if user.approved_at.present? %>
+              <%= l user.approved_at, format: :approval_datetime %>
+            <% else %>
+              -
+            <% end %>
+          </td>
+          <td class="wrap-cell"><%= user.rejection_reason.presence || "-" %></td>
+          <td class="actions-cell">
+            <div class="action-group">
+              <% if user.pending? %>
+                <%= button_to "承認", approve_admin_user_path(user), method: :patch %>
+
+                <%= form_with url: reject_admin_user_path(user), method: :patch, local: true do |f| %>
+                  <div class="form-group">
+                    <%= text_field_tag :rejection_reason, nil, placeholder: "却下理由（任意）" %>
+                  </div>
+                  <%= f.submit "却下" %>
+                <% end %>
+              <% end %>
+
+              <% if user.approved? %>
+                <% if user.demo_admin_account? %>
+                  <span class="text-muted">保護中</span>
+                <% else %>
+                  <%= button_to "削除",
+                        admin_user_path(user),
+                        method: :delete,
+                        data: { turbo_confirm: "このユーザーを削除しますか？" } %>
+                <% end %>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

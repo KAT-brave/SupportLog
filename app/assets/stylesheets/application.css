@@ -575,3 +575,40 @@ a:hover {
 .secondary-button:hover {
   background: #f5f8ff;
 }
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-scroll .simple-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.simple-table th,
+.simple-table td {
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  vertical-align: top;
+}
+
+.simple-table .wrap-cell {
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  min-width: 160px;
+}
+
+.simple-table .actions-cell {
+  min-width: 170px;
+}
+
+.status-badge,
+.priority-badge {
+  white-space: nowrap;
+  word-break: keep-all;
+}
