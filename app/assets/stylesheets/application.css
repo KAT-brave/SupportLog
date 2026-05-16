@@ -612,3 +612,31 @@ a:hover {
   white-space: nowrap;
   word-break: keep-all;
 }
+
+/* 一覧画面の表示領域を広げる */
+.page-container,
+.page-card {
+  width: calc(100vw - 48px);
+  max-width: 1280px;
+}
+
+/* テーブルをできるだけ画面内に収める */
+.table-scroll .simple-table {
+  width: 100%;
+  min-width: 100%;
+  table-layout: auto;
+}
+
+/* テーブルの余白を少しだけ詰める */
+.simple-table th,
+.simple-table td {
+  padding: 10px 12px;
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+/* 操作列は幅を確保 */
+.simple-table .actions-cell {
+  min-width: 150px;
+}
