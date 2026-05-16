@@ -75,7 +75,7 @@ SupportLogの操作イメージを確認できるデモ動画です。
 
 本動画では、カスタマーサポート業務を想定し、問い合わせの登録から対応状況の管理、ステータス変更履歴の確認、管理者によるユーザー承認までの流れを紹介しています。
 
-[![SupportLog 操作デモ](https://img.youtube.com/vi/02P4D6hXCCU/maxresdefault.jpg)](https://www.youtube.com/watch?v=02P4D6hXCCU)
+https://github.com/user-attachments/assets/abbbf0b0-4259-4620-8f53-4518a444e79d
 
 主な確認内容は以下です。
 
