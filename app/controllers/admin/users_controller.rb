@@ -16,7 +16,7 @@ module Admin
 
       UserMailer.with(user: user).approval_notification.deliver_now
 
-      redirect_to admin_users_path, notice: "ユーザーを承認し、通知メールを送信しました。"
+      redirect_to admin_users_path, notice: "ユーザーを承認しました。"
     end
 
     def reject
@@ -37,22 +37,28 @@ module Admin
 
       UserMailer.with(user: user, reason: reason).rejection_notification.deliver_now
 
-      redirect_to admin_users_path, notice: "ユーザーを却下し、通知メールを送信しました。"
+      redirect_to admin_users_path, notice: "ユーザーを却下しました。"
     end
 
-  def destroy
-    @user = User.find(params[:id])
+    def destroy
+      @user = User.find(params[:id])
 
-    unless @user.deletable_by_admin?
-      redirect_to admin_users_path,
-                alert: "このユーザーは未対応または対応中の問い合わせを担当しているため削除できません。すべて完了にしてから削除してください。"
-      return
+      if @user.demo_admin_account?
+        redirect_to admin_users_path,
+                    alert: "評価用管理者アカウントは削除できません。"
+        return
+      end
+
+      unless @user.deletable_by_admin?
+        redirect_to admin_users_path,
+                    alert: "このユーザーは未対応または対応中の問い合わせを担当しているため削除できません。すべて完了にしてから削除してください。"
+        return
+      end
+
+      @user.soft_delete!
+
+      redirect_to admin_users_path, notice: "ユーザーを削除しました。"
     end
-
-    @user.soft_delete!
-
-    redirect_to admin_users_path, notice: "ユーザーを削除し、通知メールを送信しました。"
-  end
 
     private
 

@@ -51,10 +51,14 @@
             <% end %>
 
             <% if user.approved? %>
-              <%= button_to "削除",
-                    admin_user_path(user),
-                    method: :delete,
-                    data: { turbo_confirm: "このユーザーを削除しますか？" } %>
+              <% if user.demo_admin_account? %>
+                <span class="text-muted">保護中</span>
+              <% else %>
+                <%= button_to "削除",
+                      admin_user_path(user),
+                      method: :delete,
+                      data: { turbo_confirm: "このユーザーを削除しますか？" } %>
+              <% end %>
             <% end %>
           </div>
         </td>
