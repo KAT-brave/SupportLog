@@ -19,10 +19,11 @@ class Inquiry < ApplicationRecord
   validates :due_date, presence: true
   validates :assignee_id, presence: true
   validates :response_content, length: { maximum: 5000 }, allow_blank: true
+  validates :inquiry_no, uniqueness: true, allow_nil: true
 
   validate :features_must_be_present
 
-  before_validation :set_inquiry_no, on: :create
+  after_create :set_inquiry_no
 
   scope :active, -> { where(deleted_at: nil) }
 
@@ -55,10 +56,7 @@ class Inquiry < ApplicationRecord
   private
 
   def set_inquiry_no
-    return if inquiry_no.present?
-
-    next_number = Inquiry.maximum(:id).to_i + 1
-    self.inquiry_no = format("No.%05d", next_number)
+    update_column(:inquiry_no, format("No.%05d", id))
   end
 
   def features_must_be_present

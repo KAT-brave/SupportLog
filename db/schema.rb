@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_06_051429) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_19_213405) do
   create_table "feature_assignments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "feature_id", null: false
@@ -47,6 +47,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_06_051429) do
     t.index ["assignee_id"], name: "index_inquiries_on_assignee_id"
     t.index ["created_by_id"], name: "index_inquiries_on_created_by_id"
     t.index ["deleted_by_id"], name: "index_inquiries_on_deleted_by_id"
+    t.index ["inquiry_no"], name: "index_inquiries_on_inquiry_no", unique: true
     t.index ["updated_by_id"], name: "index_inquiries_on_updated_by_id"
   end
 

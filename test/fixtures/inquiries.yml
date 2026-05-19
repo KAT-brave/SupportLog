@@ -1,7 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  inquiry_no: MyString
+  inquiry_no: No.00001
   title: MyString
   body: MyText
   customer_name: MyString
@@ -14,7 +14,7 @@ one:
   deleted_at: 2026-04-07 22:47:45
 
 two:
-  inquiry_no: MyString
+  inquiry_no: No.00002
   title: MyString
   body: MyText
   customer_name: MyString
@@ -25,3 +25,4 @@ two:
   assignee: two
   delete_reason: MyText
   deleted_at: 2026-04-07 22:47:45
+  
