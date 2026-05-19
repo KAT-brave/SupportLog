@@ -26,8 +26,13 @@ class Inquiry < ApplicationRecord
 
   scope :active, -> { where(deleted_at: nil) }
 
-  def soft_delete!(reason:)
-    update!(deleted_at: Time.current, delete_reason: reason)
+  def soft_delete!(reason:, deleted_by: nil)
+    update_columns(
+      deleted_at: Time.current,
+      delete_reason: reason,
+      deleted_by_id: deleted_by&.id,
+      updated_at: Time.current
+    )
   end
 
   def status_i18n
