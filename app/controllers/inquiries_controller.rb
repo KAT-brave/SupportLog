@@ -1,5 +1,5 @@
 class InquiriesController < ApplicationController
-  before_action :set_inquiry, only: %i[show edit update soft_delete]
+  before_action :set_inquiry, only: %i[show edit update destroy]
 
   def index
     @inquiries = Inquiry.active.order(created_at: :desc)
@@ -56,7 +56,7 @@ class InquiriesController < ApplicationController
     end
   end
 
-  def soft_delete
+  def destroy
     if params[:delete_reason].blank?
       redirect_to inquiries_path, alert: "削除理由を入力してください。"
       return
