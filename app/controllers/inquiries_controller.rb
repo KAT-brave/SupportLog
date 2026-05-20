@@ -1,8 +1,12 @@
 class InquiriesController < ApplicationController
-  before_action :set_inquiry, only: %i[show edit update destroy]
+  before_action :set_inquiry, only: %i[edit update destroy]
+  before_action :set_inquiry_with_associations, only: %i[show]
 
   def index
-    @inquiries = Inquiry.active.order(created_at: :desc)
+    @inquiries = Inquiry
+      .active
+      .includes(:assignee, :features)
+      .order(created_at: :desc)
   end
 
   def show
@@ -74,6 +78,13 @@ class InquiriesController < ApplicationController
 
   def set_inquiry
     @inquiry = Inquiry.active.find(params[:id])
+  end
+
+  def set_inquiry_with_associations
+    @inquiry = Inquiry
+      .active
+      .includes(:assignee, :features, inquiry_status_histories: :changed_by)
+      .find(params[:id])
   end
 
   def inquiry_params
