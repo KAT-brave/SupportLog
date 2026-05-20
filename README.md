@@ -1,4 +1,5 @@
 # SupportLog
+<img width="900" alt="SupportLogサムネイル画像" src="https://github.com/user-attachments/assets/f2f056b9-ea40-487c-a87c-1ded81a8eeda" />
 
 ## はじめに
 
@@ -89,6 +90,12 @@ https://github.com/user-attachments/assets/abbbf0b0-4259-4620-8f53-4518a444e79d
 8. 承認・却下時の疑似メール内容の確認
 9. 通常アカウントでのログイン　
 10.問い合わせ一覧の確認
+
+---
+
+## 画面遷移イメージ
+<img width="1672" height="941" alt="Supportlog画面遷移イメージ" src="https://github.com/user-attachments/assets/c9395ba4-f078-4e27-a385-1a0fb0c7075a" />
+
 
 ---
 
