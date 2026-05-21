@@ -33,6 +33,22 @@
         <div class="alert"><%= alert %></div>
       <% end %>
 
+      <% if flash[:mail_preview].present? %>
+        <div class="mail-preview">
+          <h2>疑似メール内容</h2>
+
+          <pre><%= flash[:mail_preview] %></pre>
+
+          <% if flash[:password_reset_path].present? %>
+            <p>
+              <%= link_to "パスワード再設定画面を開く",
+                          flash[:password_reset_path],
+                          class: "primary-button" %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+
       <%= yield %>
     </div>
   </body>
