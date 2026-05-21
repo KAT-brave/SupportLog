@@ -57,9 +57,12 @@ module Admin
         return
       end
 
+      mail = UserMailer.with(user: @user).account_deleted_notification
+      flash[:mail_preview] = notification_preview_text(mail)
+
       @user.soft_delete!
 
-      redirect_to admin_users_path, notice: "ユーザーを削除しました。"
+      redirect_to admin_users_path, notice: "ユーザーを削除しました。疑似メール内容を画面に表示しています。"
     end
 
     private
