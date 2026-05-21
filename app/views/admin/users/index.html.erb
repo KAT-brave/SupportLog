@@ -15,7 +15,7 @@
       <tr>
         <th>名前</th>
         <th>メールアドレス</th>
-        <th>管理者</th>
+        <th>権限</th>
         <th>状態</th>
         <th>承認日時</th>
         <th>理由</th>
@@ -27,7 +27,33 @@
         <tr>
           <td><%= user.name %></td>
           <td><%= user.email_address %></td>
-          <td><%= user.admin? ? "はい" : "いいえ" %></td>
+          <td>
+            <% if user.approved? && !user.demo_admin_account? && user != Current.user %>
+              <%= form_with url: update_role_admin_user_path(user), method: :patch, local: true do %>
+                <div class="form-group">
+                  <%= select_tag :admin,
+                                 options_for_select(
+                                   [["担当者", "false"], ["管理者", "true"]],
+                                   user.admin?.to_s
+                                 ) %>
+                </div>
+                <%= submit_tag "権限変更" %>
+              <% end %>
+            <% else %>
+              <%= user.admin? ? "管理者" : "担当者" %>
+
+              <% if user.demo_admin_account? %>
+                <br>
+                <span class="text-muted">評価用管理者のため変更不可</span>
+              <% elsif user == Current.user %>
+                <br>
+                <span class="text-muted">ログイン中のため変更不可</span>
+              <% elsif !user.approved? %>
+                <br>
+                <span class="text-muted">未承認のため変更不可</span>
+              <% end %>
+            <% end %>
+          </td>
           <td>
             <% if user.approved? %>
               <span class="status-badge status-approved">承認済み</span>
@@ -63,9 +89,9 @@
                   <span class="text-muted">保護中</span>
                 <% else %>
                   <%= button_to "削除",
-                        admin_user_path(user),
-                        method: :delete,
-                        data: { turbo_confirm: "このユーザーを削除しますか？" } %>
+                                admin_user_path(user),
+                                method: :delete,
+                                data: { turbo_confirm: "このユーザーを削除しますか？" } %>
                 <% end %>
               <% end %>
             </div>

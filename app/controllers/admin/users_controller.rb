@@ -42,6 +42,32 @@ module Admin
       redirect_to admin_users_path, notice: "ユーザーを却下しました。疑似メール内容を画面に表示しています。"
     end
 
+    def update_role
+      user = User.find(params[:id])
+
+      if user.demo_admin_account?
+        redirect_to admin_users_path,
+                    alert: "評価用管理者アカウントの権限は変更できません。"
+        return
+      end
+
+      if user == Current.user
+        redirect_to admin_users_path,
+                    alert: "現在ログイン中の自分自身の権限は変更できません。"
+        return
+      end
+
+      unless user.approved?
+        redirect_to admin_users_path,
+                    alert: "未承認ユーザーの権限は変更できません。先に承認してください。"
+        return
+      end
+
+      user.update!(admin: params[:admin] == "true")
+
+      redirect_to admin_users_path, notice: "ユーザー権限を更新しました。"
+    end
+
     def destroy
       @user = User.find(params[:id])
 
