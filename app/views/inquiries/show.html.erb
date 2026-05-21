@@ -44,7 +44,7 @@
       <div class="detail-label">ステータス</div>
       <div class="detail-value">
         <span class="status-badge status-<%= @inquiry.status %>">
-          <%= inquiry_status_label(@inquiry.status) %>
+          <%= @inquiry.status_i18n %>
         </span>
       </div>
     </div>
@@ -53,7 +53,7 @@
       <div class="detail-label">優先度</div>
       <div class="detail-value">
         <span class="priority-badge priority-<%= @inquiry.priority %>">
-          <%= inquiry_priority_label(@inquiry.priority) %>
+          <%= @inquiry.priority_i18n %>
         </span>
       </div>
     </div>
@@ -79,8 +79,10 @@
         <%= @inquiry.updated_by.present? ? l(@inquiry.updated_at, format: :datetime) : "-" %>
       </div>
     </div>
+  </div>
 
   <h2 class="sub-title">ステータス変更履歴</h2>
+
   <table class="simple-table">
     <thead>
       <tr>
@@ -94,11 +96,11 @@
     <tbody>
       <% @inquiry.inquiry_status_histories.order(created_at: :desc).each do |history| %>
         <tr>
-          <td><%= inquiry_status_label(history.from_status) %></td>
-          <td><%= inquiry_status_label(history.to_status) %></td>
+          <td><%= Inquiry.status_i18n(history.from_status) %></td>
+          <td><%= Inquiry.status_i18n(history.to_status) %></td>
           <td><%= history.reason %></td>
           <td><%= history.changed_by&.display_name || "変更者不明" %></td>
-          <td><%= history.created_at %></td>
+          <td><%= l history.created_at, format: :datetime %></td>
         </tr>
       <% end %>
     </tbody>

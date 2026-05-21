@@ -27,6 +27,27 @@ class Inquiry < ApplicationRecord
 
   scope :active, -> { where(deleted_at: nil) }
 
+  STATUS_LABELS = {
+    "unhandled" => "未対応",
+    "in_progress" => "対応中",
+    "completed" => "完了"
+  }.freeze
+
+  PRIORITY_LABELS = {
+    "incident" => "障害",
+    "high" => "高",
+    "medium" => "中",
+    "low" => "低"
+  }.freeze
+
+  def self.status_i18n(status)
+    STATUS_LABELS[status.to_s] || status.to_s
+  end
+
+  def self.priority_i18n(priority)
+    PRIORITY_LABELS[priority.to_s] || priority.to_s
+  end
+
   def soft_delete!(reason:, deleted_by: nil)
     update_columns(
       deleted_at: Time.current,
@@ -37,20 +58,11 @@ class Inquiry < ApplicationRecord
   end
 
   def status_i18n
-    {
-      "unhandled" => "未対応",
-      "in_progress" => "対応中",
-      "completed" => "完了"
-    }[status]
+    self.class.status_i18n(status)
   end
 
   def priority_i18n
-    {
-      "incident" => "障害",
-      "high" => "高",
-      "medium" => "中",
-      "low" => "低"
-    }[priority]
+    self.class.priority_i18n(priority)
   end
 
   private
