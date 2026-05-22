@@ -57,16 +57,4 @@ class User < ApplicationRecord
     update!(deleted_at: Time.current, approved_at: nil)
     sessions.destroy_all
   end
-
-  def revive_for_registration(attributes)
-    assign_attributes(attributes)
-
-    self.deleted_at = nil
-    self.approved_at = nil
-    self.rejected_at = nil
-    self.rejection_reason = nil
-    self.admin = false
-
-    save
-  end
 end
