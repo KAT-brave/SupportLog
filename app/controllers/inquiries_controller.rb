@@ -1,6 +1,7 @@
 class InquiriesController < ApplicationController
   before_action :set_inquiry, only: %i[edit update destroy]
   before_action :set_inquiry_with_associations, only: %i[show]
+  before_action :ensure_editable_inquiry, only: %i[edit update destroy]
 
   def index
     @inquiries = Inquiry
@@ -85,6 +86,14 @@ class InquiriesController < ApplicationController
       .active
       .includes(:assignee, :features, inquiry_status_histories: :changed_by)
       .find(params[:id])
+  end
+
+  def ensure_editable_inquiry
+    return if Current.user.admin?
+    return if @inquiry.assignee == Current.user
+
+    redirect_to inquiries_path,
+                alert: "この問い合わせを編集・削除する権限がありません。"
   end
 
   def inquiry_params
