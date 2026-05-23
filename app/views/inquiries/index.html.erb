@@ -38,8 +38,12 @@
           <td><%= inquiry.assignee&.display_name || "担当者不明" %></td>
           <td><%= inquiry.due_date %></td>
           <td class="actions-cell">
-            <%= link_to "詳細", inquiry_path(inquiry) %> |
-            <%= link_to "編集", edit_inquiry_path(inquiry) %>
+            <%= link_to "詳細", inquiry_path(inquiry) %>
+
+            <% if Current.user.admin? || inquiry.assignee == Current.user %>
+              |
+              <%= link_to "編集", edit_inquiry_path(inquiry) %>
+            <% end %>
           </td>
         </tr>
       <% end %>
