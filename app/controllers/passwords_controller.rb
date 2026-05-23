@@ -9,7 +9,11 @@ class PasswordsController < ApplicationController
 
   def create
     if user = User.find_by(email_address: params[:email_address])
-      reset_path = edit_password_path(user.password_reset_token)
+      reset_url = edit_password_url(
+        user.password_reset_token,
+        host: request.host,
+        protocol: request.protocol
+      )
 
       flash[:mail_preview] = <<~TEXT
         【疑似メール】パスワード再設定のご案内
@@ -17,12 +21,12 @@ class PasswordsController < ApplicationController
         パスワード再設定の申請を受け付けました。
         以下のリンクから新しいパスワードを設定してください。
 
-        #{reset_path}
+        #{reset_url}
 
-        ※評価環境では実メール送信の代わりに、この画面上に疑似メール内容を表示しています。
+        ※ポートフォリオ用デモ環境では実メール送信の代わりに、この画面上に疑似メール内容を表示しています。
       TEXT
 
-      flash[:password_reset_path] = reset_path
+      flash[:password_reset_path] = reset_url
     end
 
     redirect_to new_session_path,
