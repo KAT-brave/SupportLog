@@ -18,7 +18,7 @@ ja:
         title: "タイトル"
         body: "問い合わせ内容"
         due_date: "期日"
-        features: "機能"
+        features: "対象デバイス"
 
     errors:
       models:

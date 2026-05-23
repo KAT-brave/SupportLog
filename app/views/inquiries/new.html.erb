@@ -27,7 +27,7 @@
   </div>
 
   <div class="form-group">
-    <%= label_tag "inquiry_feature_ids", "機能" %><br>
+    <%= label_tag "inquiry_feature_ids", "対象デバイス" %><br>
     <% @features.each do |feature| %>
       <div>
         <%= check_box_tag "inquiry[feature_ids][]", feature.id, @inquiry.feature_ids.include?(feature.id) %>
