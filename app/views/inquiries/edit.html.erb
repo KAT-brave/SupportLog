@@ -1,17 +1,17 @@
 <h1>問い合わせ編集</h1>
 
-<%= form_with model: @inquiry do |f| %>
-  <% if @inquiry.errors.any? %>
-    <div class="alert">
-      <p>入力内容を確認してください。</p>
-      <ul>
-        <% @inquiry.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<% if @inquiry.errors.any? %>
+  <div class="alert">
+    <p>入力内容を確認してください。</p>
+    <ul>
+      <% @inquiry.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
+<%= form_with model: @inquiry do |f| %>
   <div class="form-group">
     <%= f.label :title, "タイトル" %>
     <%= f.text_field :title %>
@@ -62,7 +62,7 @@
     <%= f.select :priority, [["障害", "incident"], ["高", "high"], ["中", "medium"], ["低", "low"]] %>
   </div>
 
-   <div class="form-card">
+  <div class="form-card">
     <h2>管理情報</h2>
 
     <div class="detail-list">
