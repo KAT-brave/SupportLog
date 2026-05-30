@@ -658,3 +658,10 @@ a:hover {
 .simple-table .actions-cell {
   min-width: 150px;
 }
+
+.form-help {
+  margin: -4px 0 8px;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}

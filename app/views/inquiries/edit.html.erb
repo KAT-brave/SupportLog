@@ -54,6 +54,9 @@
 
   <div class="form-group">
     <%= label_tag :status_change_reason, "ステータス変更理由" %>
+    <p class="form-help">
+      ステータスを変更する場合のみ入力してください。
+    </p>
     <%= text_area_tag :status_change_reason, nil, rows: 3 %>
   </div>
 
