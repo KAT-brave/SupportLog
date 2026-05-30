@@ -11,6 +11,10 @@ class InquiriesController < ApplicationController
   end
 
   def show
+    @status_histories = @inquiry
+      .inquiry_status_histories
+      .sort_by(&:created_at)
+      .reverse
   end
 
   def new

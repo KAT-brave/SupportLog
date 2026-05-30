@@ -94,7 +94,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @inquiry.inquiry_status_histories.order(created_at: :desc).each do |history| %>
+      <% @status_histories.each do |history| %>
         <tr>
           <td><%= Inquiry.status_i18n(history.from_status) %></td>
           <td><%= Inquiry.status_i18n(history.to_status) %></td>
