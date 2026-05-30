@@ -28,9 +28,7 @@ class InquiriesController < ApplicationController
     @inquiry.assignee = Current.user
     @inquiry.created_by = Current.user
     load_master_data
-
-    feature_ids = params.dig(:inquiry, :feature_ids)&.reject(&:blank?) || []
-    @inquiry.feature_ids = feature_ids
+    assign_features
 
     if @inquiry.save
       redirect_to inquiries_path, notice: "問い合わせを登録しました。"
@@ -99,7 +97,7 @@ class InquiriesController < ApplicationController
 
   def ensure_editable_inquiry
     return if Current.user.admin?
-    return if @inquiry.assignee == Current.user
+    return if @inquiry.assignee_id == Current.user.id
 
     redirect_to inquiries_path,
                 alert: "この問い合わせを編集・削除する権限がありません。"
@@ -114,8 +112,7 @@ class InquiriesController < ApplicationController
       :phone_number,
       :status,
       :priority,
-      :due_date,
-      feature_ids: []
+      :due_date
     )
   end
 
