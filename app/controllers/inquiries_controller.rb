@@ -57,10 +57,15 @@ class InquiriesController < ApplicationController
       return
     end
 
-    if @inquiry.save
-      create_status_history_if_needed(old_status)
+    begin
+      Inquiry.transaction do
+        @inquiry.save!
+        create_status_history_if_needed(old_status)
+      end
+
       redirect_to inquiries_path, notice: "問い合わせを更新しました。"
-    else
+    rescue ActiveRecord::RecordInvalid => e
+      @inquiry.errors.add(:base, e.record.errors.full_messages.join("、")) if @inquiry.errors.empty?
       render :edit, status: :unprocessable_entity
     end
   end
