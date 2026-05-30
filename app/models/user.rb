@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   has_secure_password
 
+  validates :password, length: { minimum: 8 }, if: -> { password.present? }
+
   has_many :sessions, dependent: :destroy
 
   has_many :assigned_inquiries,
