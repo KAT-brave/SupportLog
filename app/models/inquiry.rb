@@ -12,13 +12,15 @@ class Inquiry < ApplicationRecord
   enum :status, { unhandled: 0, in_progress: 1, completed: 2 }
   enum :priority, { incident: 0, high: 1, medium: 2, low: 3 }
 
-  validates :title, presence: true
-  validates :body, presence: true
+  validates :title, presence: true, length: { maximum: 100 }
+  validates :body, presence: true, length: { maximum: 5000 }
   validates :status, presence: true
   validates :priority, presence: true
   validates :due_date, presence: true
   validates :assignee_id, presence: true
   validates :response_content, length: { maximum: 5000 }, allow_blank: true
+  validates :customer_name, length: { maximum: 100 }, allow_blank: true
+  validates :phone_number, length: { maximum: 30 }, allow_blank: true
   validates :inquiry_no, uniqueness: true, allow_nil: true
 
   validate :features_must_be_present
